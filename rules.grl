@@ -1,0 +1,31 @@
+rule SmsNotification "Regla para cuando se deba notificar por SMS" salience 10 {
+    when 
+         R.Client.FirstName  != "" && R.Client.PhoneNumber != ""
+    then
+        R.Keys = R.AddNotificationType("SMS", R.Keys);
+        Retract("SmsNotification");
+}
+
+rule TestNotification "Regla para cuando se deba notificar por SMS" salience 10 {
+    when 
+         R.Client.FirstName  != ""
+    then
+        R.Keys = R.AddNotificationType("SMS", R.Keys);
+        Retract("TestNotification");
+}
+
+rule EmailNotification "Regla para cuando se deba notificar por EMAIL" salience 10 {
+    when 
+         R.Client.FirstName  != "" && R.Client.Email != ""
+    then
+        R.Keys = R.AddNotificationType("EMAIL", R.Keys);
+        Retract("EmailNotification");
+}
+
+rule PushNotification "Regla para cuando se deba notificar por PUSH" salience 10 {
+    when 
+         R.Client.FirstName  != "" && R.Client.PhoneNumber != "" && R.Client.DeviceToken.Len() > 0
+    then
+        R.Keys = R.AddNotificationType("PUSH", R.Keys);
+        Retract("PushNotification");
+}
